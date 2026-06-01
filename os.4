@@ -1,0 +1,165 @@
+#include <stdio.h>
+
+int main() {
+    int pages[50], frames[10], n, f, i, j, k, pos = 0, faults = 0;
+
+    printf("Enter number of pages: ");
+    scanf("%d", &n);
+
+    printf("Enter page reference string:\n");
+    for(i = 0; i < n; i++)
+        scanf("%d", &pages[i]);
+
+    printf("Enter number of frames: ");
+    scanf("%d", &f);
+
+    for(i = 0; i < f; i++)
+        frames[i] = -1;
+
+    for(i = 0; i < n; i++) {
+        int found = 0;
+
+        for(j = 0; j < f; j++) {
+            if(frames[j] == pages[i]) {
+                found = 1;
+                break;
+            }
+        }
+
+        if(!found) {
+            frames[pos] = pages[i];
+            pos = (pos + 1) % f;
+            faults++;
+        }
+
+        printf("\nFrames: ");
+        for(k = 0; k < f; k++)
+            printf("%d ", frames[k]);
+    }
+
+    printf("\nTotal Page Faults = %d\n", faults);
+    return 0;
+}
+
+LRU (Least Recently Used)
+#include <stdio.h>
+
+int main() {
+    int pages[50], frames[10], time[10];
+    int n, f, i, j, k, faults = 0, counter = 0;
+
+    printf("Enter number of pages: ");
+    scanf("%d", &n);
+
+    printf("Enter page reference string:\n");
+    for(i = 0; i < n; i++)
+        scanf("%d", &pages[i]);
+
+    printf("Enter number of frames: ");
+    scanf("%d", &f);
+
+    for(i = 0; i < f; i++)
+        frames[i] = -1;
+
+    for(i = 0; i < n; i++) {
+        int found = 0;
+
+        for(j = 0; j < f; j++) {
+            if(frames[j] == pages[i]) {
+                counter++;
+                time[j] = counter;
+                found = 1;
+                break;
+            }
+        }
+
+        if(!found) {
+            int min = 0;
+            for(j = 1; j < f; j++) {
+                if(time[j] < time[min])
+                    min = j;
+            }
+
+            frames[min] = pages[i];
+            counter++;
+            time[min] = counter;
+            faults++;
+        }
+
+        printf("\nFrames: ");
+        for(k = 0; k < f; k++)
+            printf("%d ", frames[k]);
+    }
+
+    printf("\nTotal Page Faults = %d\n", faults);
+    return 0;
+}
+
+
+
+
+Optimal Page Replacement
+#include <stdio.h>
+
+int main() {
+    int pages[50], frames[10];
+    int n, f, i, j, k, faults = 0;
+
+    printf("Enter number of pages: ");
+    scanf("%d", &n);
+
+    printf("Enter page reference string:\n");
+    for(i = 0; i < n; i++)
+        scanf("%d", &pages[i]);
+
+    printf("Enter number of frames: ");
+    scanf("%d", &f);
+
+    for(i = 0; i < f; i++)
+        frames[i] = -1;
+
+    for(i = 0; i < n; i++) {
+        int found = 0;
+
+        for(j = 0; j < f; j++) {
+            if(frames[j] == pages[i]) {
+                found = 1;
+                break;
+            }
+        }
+
+        if(!found) {
+            int pos = -1, farthest = i + 1;
+
+            for(j = 0; j < f; j++) {
+                int k;
+                for(k = i + 1; k < n; k++) {
+                    if(frames[j] == pages[k]) {
+                        if(k > farthest) {
+                            farthest = k;
+                            pos = j;
+                        }
+                        break;
+                    }
+                }
+                if(k == n) {
+                    pos = j;
+                    break;
+                }
+            }
+
+            if(pos == -1)
+                pos = 0;
+
+            frames[pos] = pages[i];
+            faults++;
+        }
+
+        printf("\nFrames: ");
+        for(j = 0; j < f; j++)
+            printf("%d ", frames[j]);
+    }
+
+    printf("\nTotal Page Faults = %d\n", faults);
+    return 0;
+}
