@@ -1,0 +1,40 @@
+#include <stdio.h>
+
+int main() {
+    int n, wSize, i;
+    int frames[100];
+    int base = 0;      // Oldest unacknowledged frame
+    int ack;
+
+    printf("Enter window size: ");
+    scanf("%d", &wSize);
+
+    printf("Enter number of frames: ");
+    scanf("%d", &n);
+
+    printf("Enter frame numbers:\n");
+    for (i = 0; i < n; i++) {
+        scanf("%d", &frames[i]);
+    }
+
+    while (base < n) {
+        printf("\nSending frames: ");
+        for (i = base; i < base + wSize && i < n; i++) {
+            printf("%d ", frames[i]);
+        }
+
+        printf("\nEnter ACK (last correctly received frame Index number, -1 for loss): ");
+        scanf("%d", &ack);
+
+        if (ack >= base) {
+            printf("ACK received up to frame %d\n", ack);
+            base = ack + 1;   // Slide window forward
+        } else {
+            printf("Frame loss detected! Go-Back-N retransmission from frame %d\n", base);
+            // base remains same → retransmit same window
+        }
+    }
+
+    printf("\nTransmission completed successfully.\n");
+    return 0;
+}

@@ -1,0 +1,45 @@
+#include <stdio.h>
+
+int main() {
+    int bucketSize, outputRate, n, i;
+    int incomingPacket, bucket = 0;
+
+    printf("Enter bucket size: ");
+    scanf("%d", &bucketSize);
+
+    printf("Enter output rate: ");
+    scanf("%d", &outputRate);
+
+    printf("Enter number of time intervals: ");
+    scanf("%d", &n);
+
+    for (i = 1; i <= n; i++) {
+        printf("\nEnter number of packets at time %d: ", i);
+        scanf("%d", &incomingPacket);
+
+        // Add incoming packets to bucket
+        if (incomingPacket + bucket <= bucketSize) {
+            bucket += incomingPacket;
+        } else {
+            int dropped = (incomingPacket + bucket) - bucketSize;
+            printf("Bucket overflow! Dropped %d packets\n", dropped);
+            bucket = bucketSize;
+        }
+
+        // Transmit packets (leak)
+        printf("Before transmission, bucket = %d\n", bucket);
+
+        if (bucket < outputRate) {
+            printf("Transmitted %d packets\n", bucket);
+            bucket = 0;
+        } else {
+            printf("Transmitted %d packets\n", outputRate);
+            bucket -= outputRate;
+        }
+
+        printf("After transmission, bucket = %d\n", bucket);
+    
+    return 0;
+}
+	
+

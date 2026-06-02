@@ -1,0 +1,81 @@
+ #include<stdio.h>
+#include<math.h>
+int prime(int);
+int main()
+{
+int p,q,n1,ET[100],n2,i,j,a,e,d,r,s,k,r1,n[20],v=0;
+char  dec[200],ala[26]={'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
+char s1[' '];
+printf("Enter the p & q values as prime: ");
+scanf("%d%d",&p,&q);
+while(prime(p)!=2)
+{
+    printf("Enter the p value prime arg");
+    scanf("%d",&p);
+}
+while(prime(q)!=2)
+{
+    printf("Enter the q value prime arg");
+    scanf("%d",&q);
+}
+n1=p*q;
+a=(p-1)*(q-1);
+
+e=7;
+for(i=1;i<a;i++)
+{
+    r=e*i;
+    if(r%a==1)
+    {
+        d=i;
+        if(e!=d)
+            i=a;
+    }
+}
+printf("\nThe value of D is %d",d);
+printf("\nThe public key is (%d,%d)",e,n1);
+printf("\nThe private key is (%d,%d)",d,n1);
+printf("\nEnter the plain text:  ");
+scanf("%s",s1);
+printf("Encrypted text:\n");
+
+for(i=0;s1[i]!='\0';i++)
+{
+    int temp=(int)s1[i];
+    int M=temp;
+    temp=M%n1;
+
+    for(int k=0;k<e-1;k++)
+    {
+        temp=(temp*M)%n1;
+    }
+    printf("%c",temp);
+    ET[i]=temp;
+}
+printf("\nDecrypted text:\n");
+
+    for(j=0;j<i;j++)
+    {
+        int temp=ET[j];
+        int C=temp;
+        temp=C%n1;
+        for(int k=0;k<d-1;k++)
+        {
+            temp=(temp*C)%n1;
+        }
+        printf("%c",temp);
+    }
+}
+
+int prime(int d)
+{
+    int factors=0,i;
+    for(i=1;i<=d;i++)
+    {
+        if((d%i)==0)
+        {
+            factors++;
+        }
+    }
+    return factors;
+}

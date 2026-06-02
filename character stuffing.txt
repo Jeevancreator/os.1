@@ -1,0 +1,84 @@
+ int main() {
+    char dataBits[100],dataBitsSent[100],dataBitsRecieved[100];
+    int i,j;
+    printf("Enter Bits");
+    scanf("%s",&dataBits);
+    int counter=0;
+    for(i=0,j=0;dataBits[i]!='\0';i++,j++)
+    {
+        if(dataBits[i]=='0')
+            counter=0;
+        else
+            counter=counter+1;
+        dataBitsSent[j]=dataBits[i];
+        if(counter==5)
+        {
+            j++;
+            dataBitsSent[j]='0';
+            counter=0;
+        }
+    }
+    dataBitsSent[j]='\0';
+    printf("Data Bits Sent: %s\n",dataBitsSent);
+    for(i=0,j=0;dataBitsSent[i]!='\0';i++,j++)
+    {
+        if(dataBitsSent[i]=='0')
+            counter=0;
+        else
+            counter=counter+1;
+        dataBitsRecieved[j]=dataBitsSent[i];
+        if(counter==5)
+        {
+            i++;
+            counter=0;
+        }
+    }
+    printf("Data Bits Recieved: %s",dataBitsRecieved);
+   
+    return 0;
+}
+
+
+bit stuffing:
+#include <stdio.h>
+
+int main() {
+    char dataBits[100],dataBitsSent[100],dataBitsRecieved[100];
+    int i,j;
+    printf("Enter Bits");
+    scanf("%s",&dataBits);
+    int counter=0;
+    for(i=0,j=0;dataBits[i]!='\0';i++,j++)
+    {
+        if(dataBits[i]=='0')
+            counter=0;
+        else
+            counter=counter+1;
+        dataBitsSent[j]=dataBits[i];
+        if(counter==5)
+        {
+            j++;
+            dataBitsSent[j]='0';
+            counter=0;
+        }
+    }
+    dataBitsSent[j]='\0';
+    printf("Data Bits Sent: %s\n",dataBitsSent);
+    for(i=0,j=0;dataBitsSent[i]!='\0';i++,j++)
+    {
+        if(dataBitsSent[i]=='0')
+            counter=0;
+        else
+            counter=counter+1;
+        dataBitsRecieved[j]=dataBitsSent[i];
+        if(counter==5)
+        {
+            i++;
+            counter=0;
+        }
+    }
+    printf("Data Bits Recieved: %s",dataBitsRecieved);
+   
+    return 0;
+}
+
